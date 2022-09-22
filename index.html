@@ -1,0 +1,591 @@
+<html>
+    <head>
+        <title>Quiz Timer</title>
+        <link rel="icon" href="./favicon/favicon.ico">
+    </head>
+
+    <style>
+
+        body {
+            font-family: tahoma, sans-serif;
+            font-size: 30px;
+            color: rgb(255,255,255);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgb(0,0,0);
+        }
+
+        select {
+            font-family: tahoma, sans-serif;
+            background-color: rgba(0,0,0,0.5);
+            color: rgb(255,255,255);
+            border: 1px solid rgb(127,127,127);;
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        input {
+            font-family: tahoma, sans-serif;
+            font-size: 40px;
+            background-color: rgba(0,0,0,0.5);
+            color: rgb(255,255,255);
+            border: 1px solid rgb(127,127,127);
+            border-radius: 8px;
+        }
+
+        textarea {
+            font-family: tahoma, sans-serif;
+            font-size: 32px;
+            background-color: rgba(0,0,0,0);
+            color: rgb(255,255,255);
+            border: none;
+            border-radius: 8px;
+            resize: none;
+        }
+
+        .box {
+            background-color: rgba(0,0,0, 0.8);
+            border: 1px solid rgb(127,127,127);
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px;
+            width: fit-content;
+            transition-property: all;
+            transition-duration: 1s;
+        }
+
+        #footer {
+            font-size: 12px;
+            position: sticky;
+            top: 100%;
+        }
+
+        #TASlots {
+            font-size: 14px;
+        }
+
+        #courses, #defaults {
+            font-size: 40px;
+        }
+
+        #TA0, #TA1, #TA2, #TA3 {
+            font-size: 40px;
+        }
+
+        .large {
+            font-size: 32px;
+        }
+
+        .grid-container {
+            display: inline-grid;
+            align-items: center;
+            width: 100%;
+        }
+
+        .grid-container-gap {
+            display: inline-grid;
+            column-gap: 8px;
+        }
+
+        #gridTA {
+            grid-template-rows: auto auto 0px 0px;
+            overflow: hidden;
+        }
+
+        .item-1-1 {
+            grid-row-start: 1;
+            grid-row-end: 1;
+            grid-column-start: 1;
+            grid-column-end: 1;
+        }
+
+        .item-1-2 {
+            grid-row-start: 1;
+            grid-row-end: 1;
+            grid-column-start: 2;
+            grid-column-end: 2;
+        }
+
+        .item-1-3 {
+            grid-row-start: 1;
+            grid-row-end: 1;
+            grid-column-start: 3;
+            grid-column-end: 3;
+        }
+
+        .item-2-1 {
+            grid-row-start: 2;
+            grid-row-end: 2;
+            grid-column-start: 1;
+            grid-column-end: 1;
+        }
+
+        .item-2-2 {
+            grid-row-start: 2;
+            grid-row-end: 2;
+            grid-column-start: 2;
+            grid-column-end: 2;
+        }
+
+        .item-3-1 {
+            grid-row-start: 3;
+            grid-row-end: 3;
+            grid-column-start: 1;
+            grid-column-end: 1;
+        }
+
+        .item-3-2 {
+            grid-row-start: 3;
+            grid-row-end: 3;
+            grid-column-start: 2;
+            grid-column-end: 2;
+        }
+
+        .item-3-3 {
+            grid-row-start: 3;
+            grid-row-end: 3;
+            grid-column-start: 3;
+            grid-column-end: 3;
+        }
+
+        .item-4-1 {
+            grid-row-start: 4;
+            grid-row-end: 4;
+            grid-column-start: 1;
+            grid-column-end: 1;
+        }
+
+        .item-4-2 {
+            grid-row-start: 4;
+            grid-row-end: 4;
+            grid-column-start: 2;
+            grid-column-end: 2;
+        }
+
+        #clock {
+            padding: 5px;
+            margin: 10px;
+            font-size: 70px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #timeStart, #timeEnd {
+            font-size: 60px;
+            font-family: 'Courier New', Courier, monospace;
+            width: 380px;
+        }
+
+        #password {
+            font-size: 50px;
+            width: 380px;
+        }
+
+        #buttonPassword {
+            color: rgb(100,100,100);
+        }
+
+        #seatingChart {
+            height: auto;
+            width: 100%;
+            max-height: 1000px;
+            max-width: 1500px;
+            overflow: hidden;
+            transition-property: max-height, max-width;
+            transition-duration: 0.5s;
+        }
+
+        #timer {
+            height: auto;
+            width: auto;
+            max-height: 350px;
+            max-width: 1500px;
+            overflow: hidden;
+            transition-property: max-height, max-width;
+            transition-duration: 0.5s;
+        }
+
+        #instructions {
+            height: auto;
+            width: auto;
+            max-height: 350px;
+            max-width: 1500px;
+            overflow: hidden;
+            transition-property: max-height, max-width;
+            transition-duration: 0.5s;
+        }
+
+        #buttonSeatingChart, #buttonTimer, #buttonInstructions {
+            height: 100%;
+            padding-top: 4px;
+            margin-left: 8px;
+            color: rgb(100,100,100);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 25px;
+            transition-property: all;
+            transition-duration: 0.5s;
+        }
+
+        input:hover {
+            background-color: rgba(80,80,80,0.5);
+            color: rgb(255,255,255);
+        }
+
+    </style>
+    
+    <body>
+        <div class = "box">
+            <select id = "courses"></select>
+            <select id = "defaults">
+                <option value = "Quiz">Review (25 min) + Quiz (25 min)</option>
+                <option value = "Test">Test (50 min)</option>
+                <option value = "None"></option>
+            </select>
+        </div>
+        <div class = "box">
+            <div class = "grid-container-gap" id = "gridTA">
+                <div class = "item-1-1">
+                    <select id = "TA0"></select>
+                </div>
+                <div class = "item-1-2">
+                    <label class = "large" id = "OH0"></label>
+                </div>
+                <div class = "item-2-1">
+                    <select id = "TA1"></select>
+                </div>
+                <div class = "item-2-2">
+                    <label class = "large" id = "OH1"></label>
+                </div>
+                <div class = "item-3-1">
+                    <select id = "TA2"></select>
+                </div>
+                <div class = "item-3-2">
+                    <label class = "large" id = "OH2"></label>
+                </div>
+                <div class = "item-4-1">
+                    <select id = "TA3"></select>
+                </div>
+                <div class = "item-4-2">
+                    <label class = "large" id = "OH3"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class = "box">
+            <div class = "grid-container">
+                <div class = "item-1-2">
+                    <input type = "button" value = "<" id = "buttonSeatingChart"></input>
+                </div>
+                <div class = "item-1-1">
+                    <img src = "seatingChart/MAC0000Lab0.jpeg" id = "seatingChart" alt = "seating chart">
+                    </img>
+                </div>
+            </div>
+        </div>
+
+        <div class = "box">
+            <label id = 'clock'></label>
+        </div>
+        <div class = "box">
+            <div class = "grid-container">
+                <div class = "item-1-1">
+                    <div id = "timer">
+                        <div class = "grid-container-gap">
+                            <div class = "item-1-1">
+                                <label class = "large" id = "labelStart">Start:</label>
+                            </div>
+                            <div class = "item-1-2">
+                                <input cols = "10" type = "time" value = "00:00" id = "timeStart"></input>
+                            </div>
+                            <div class = "item-1-3">
+                                <label class = "large" id = "labelDuration">Duration: 
+                                    <input type = "number" value = "25" max = '1440' min = '0' id = "duration"></input>
+                                    minutes
+                                </label>
+                            </div>
+                            <div class = "item-2-1">
+                                <label class = "large" id = "labelEnd">End:</label>
+                            </div>
+                            <div class = "item-2-2">
+                                <input type = "time" id = "timeEnd"></input>
+                            </div>
+                            <div class = "item-3-1">
+                                <label class = "large" id = "labelPassword">Password:</label>
+                            </div>
+                            <div class = "item-3-2">
+                                <input type = "text" id = "password"></input>
+                            </div>
+                            <div class = "item-3-3">
+                                <input type = "button" value = "Show / Hide" id = "buttonPassword"></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "item-1-2">
+                    <input type = "button" value = "<" id = "buttonTimer"></input>
+                </div>
+            </div>
+            
+        </div>
+        <div class = "box">
+            <div class = "grid-container">
+                <div class = "item-1-2">
+                    <input type = "button" value = "<" id = "buttonInstructions"></input>
+                </div>
+                <div class = "item-1-1">
+                    <div id = "instructions">
+                        <textarea cols = "73" rows = "8">During testing, please ...
+ &#10146; close all windows except for ALEKS and the Macintosh calculator. 
+ &#10146; put away all notes, books, and papers.
+ &#10146; silence and put phones, smart watches, etc. facedown at the front of your desk.
+
+When finished, put scratch paper in the box; then you may leave.
+Don't forget your belongings!</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class = "box" id = "footer">
+            <p>Quiz Timer created by Jeffery Liu</p>
+            <p>Background: 
+                <select id = "backgroundSelect">
+                    <option value = "0">chalkboard</option>
+                    <option value = "1">clouds</option>
+                    <option value = "2">library</option>
+                    <option value = "3">night sky</option>
+                    <option value = "4">FSU math</option>
+                </select>
+            </p>
+            <p>Instructors: 
+                <input type = "number" min = "0" max = "4" value = "2" id = "TASlots"></input>
+            </p>
+            <p>Photo Credits: 
+                <list>
+                    <li><a href="https://www.freepik.com/free-photo/old-black-background-grunge-texture-dark-wallpaper-blackboard-chalkboard-concrete_13475906.htm#query=chalkboard%20background&position=3&from_view=keyword">"chalkboard" by benzoix</a></li>
+                    <li><a href="https://www.pexels.com/photo/down-angle-photography-of-red-clouds-and-blue-sky-844297/">"clouds" by eberhard grossgasteiger</a></li>
+                    <li><a href="https://www.pexels.com/photo/books-in-shelves-in-library-2908976/">"library" by Stanislav Kondratiev</a></li>
+                    <li><a href="https://www.pexels.com/photo/sky-full-of-stars-2779948/">"night sky" by Marc Schulte</a></li>
+                    <li><a href="https://www.math.fsu.edu/Computer/Backgrounds/">"FSU math" by FSU math department</a></li>
+                </list>
+            </p>
+        </footer>
+
+        <script src = "./info.js"></script>
+        <script>
+            info.map = {};
+
+            for (let i = 0; i < info.courses.length; i++) {
+                const element = info.courses[i];
+                info.map[element.value] = {timeStart: element.timeStart, seatingChart: element.seatingChart};
+            }
+
+            //Class Selector and Quiz Type Selector
+            const courses = document.getElementById("courses");
+            const defaults = document.getElementById("defaults");
+
+            //TA Office Hour Info
+            const OH = [];
+            const TA = [];
+            for (let i = 0; i < 4; i++) {
+                OH[i] = document.getElementById(`OH${i}`);
+                TA[i] = document.getElementById(`TA${i}`);
+            }
+            
+            //Seating Chart
+            const seatingChart = document.getElementById("seatingChart");
+            const buttonSeatingChart = document.getElementById("buttonSeatingChart");
+            
+            //Clock
+            const clock = document.getElementById("clock")
+            
+            //Timer and Password
+            const timer = document.getElementById("timer");
+            const buttonTimer = document.getElementById("buttonTimer");
+
+            const timeStart = document.getElementById("timeStart");
+            const timeEnd = document.getElementById("timeEnd");
+            const duration = document.getElementById("duration");
+            const password = document.getElementById("password");
+            const buttonPassword = document.getElementById("buttonPassword");
+            
+            //Instructions
+            const instructions = document.getElementById("instructions");
+            const buttonInstructions = document.getElementById("buttonInstructions");
+
+            //Background Image Selector
+            const backgroundSelect = document.getElementById("backgroundSelect");
+
+            //TA amount
+            const TASlots = document.getElementById("TASlots");
+
+            //functions
+            function setSelectInfo(id, info) {
+                const select = document.getElementById(id);
+                let s = '';
+                for (let i = 0; i < info.length; i++) {
+                    const element = info[i];
+                    s += `<option value="${element.value}">${element.name}</option>\n`
+                }
+                select.innerHTML = s;
+            }
+
+            function mod(a, n) {
+                return ((a % n) + n) % n;
+            }
+
+            function timeAfter(time, duration) {
+                const hour = parseInt(time.substring(0,2));
+                const minute = parseInt(time.substring(3,5));
+                const minuteAfter = mod(minute + duration, 60);
+                const hourAfter = mod(hour + (minute + duration - minuteAfter) / 60, 24);
+                return `${hourAfter.toString().padStart(2,'0')}:${minuteAfter.toString().padStart(2,'0')}`;
+            }
+
+            function timeDiff(time, h, m) {
+                const hour = parseInt(time.substring(0,2));
+                const minute = parseInt(time.substring(3,5));
+                return 60 * (h - hour) + (m - minute);
+            }
+
+            function startTime() {
+                const today = new Date();
+                let h = today.getHours();
+                let m = today.getMinutes();
+                let s = today.getSeconds();
+                m = checkTime(m);
+                s = checkTime(s);
+                const meridian = (12 <= h && h < 24) ? 'PM' : 'AM';
+                const t = timeDiff(timeEnd.value, h, m);
+                h = checkTime(mod(h - 1, 12) + 1);
+                clock.innerHTML = h + ":" + m + ":" + s + ' ' + meridian;
+                clock.style.color = (t <= 5 && t >= -5) ? "rgb(255,0,0)" : "rgb(255,255,255)";
+                setTimeout(startTime, 1000);
+            }
+
+            function checkTime(i) {
+                if (i < 10) {
+                    i = "0" + i
+                };  // add zero in front of numbers < 10
+                return i;
+            }
+
+            function modifyOH(event) {
+                for (let i = 0; i < 4; i++) {
+                    OH[i].innerHTML = TA[i].value;
+                }
+            }
+
+            function modifySeatingChart(event) {
+                seatingChart.src = `./seatingChart/${info.map[courses.value].seatingChart}`;
+            }
+            
+            function modifyStartTime(event) {
+                if (defaults.value == 'Quiz') {
+                    timeStart.value = timeAfter(info.map[courses.value].timeStart, 25);
+                    duration.value = 25;
+                }
+                if (defaults.value == 'Test') {
+                    timeStart.value = info.map[courses.value].timeStart;
+                    duration.value = 50;
+                }
+                if (defaults.value == 'None') {
+                    timeStart.value = '00:00';
+                    duration.value = 0;
+                }
+                modifyEndTime(null);
+            }
+
+            function modifyEndTime(event) {
+                if (timeStart.value != '') {
+                    timeEnd.value = timeAfter(timeStart.value, parseInt(duration.value));
+                }
+            }
+
+            function modifyBackground(event) {
+                document.body.style.backgroundImage = `url(./backgrounds/${backgroundSelect.value}.jpeg)`;
+            }
+
+            function repeat(n, text) {
+                return n == 0 ? '' : `repeat(${n}, ${text})`
+            }
+
+            function modifyTASlots(event) {
+                document.getElementById("gridTA").style.gridTemplateRows = repeat(parseInt(TASlots.value), 'auto') + ' ' + repeat(4 - parseInt(TASlots.value), '0px');
+            }
+
+            //Toggle Buttons
+
+            function toggleSeatingChart(event) {
+                const isHidden = (seatingChart.style.maxHeight == "0px");
+                seatingChart.style.maxHeight = isHidden ? "1000px" : "0px";
+                seatingChart.style.maxWidth = isHidden ? "1500px" : "0px";
+                seatingChart.style.width = isHidden ? `${window.innerWidth - 78}px` : "0px";
+                seatingChart.style.height = isHidden ? "auto" : "0px";
+                buttonSeatingChart.style.marginLeft = isHidden ? "8px" : "0px";
+                buttonSeatingChart.value = isHidden ? "<" : "> Seating Chart";
+            }
+
+            function toggleTimer(event) {
+                const isHidden = (timer.style.maxHeight == "0px");
+                timer.style.maxHeight = isHidden ? "350px" : "0px";
+                timer.style.maxWidth = isHidden ? "1500px" : "0px";
+                buttonTimer.style.marginLeft = isHidden ? "8px" : "0px";
+                buttonTimer.value = isHidden ? "<" : "> Timer and Password";
+            }
+
+            function togglePassword(event) {
+                const isHidden = (password.style.visibility == 'hidden');
+                password.style.visibility = isHidden ? 'visible' : 'hidden';
+            }
+
+            function toggleInstructions(event) {
+                const isHidden = (instructions.style.maxHeight == "0px");
+                instructions.style.maxHeight = isHidden ? "350px" : "0px";
+                instructions.style.maxWidth = isHidden ? "1500px" : "0px";
+                buttonInstructions.style.marginLeft = isHidden ? "8px" : "0px";
+                buttonInstructions.value = isHidden ? "<" : "> Instructions";
+            }
+
+            //On Load
+            setSelectInfo('courses', info.courses);
+            setSelectInfo('TA0', info.TA);
+            for (let i = 1; i < 4; i++) {
+                TA[i].innerHTML = TA[0].innerHTML;   
+            }
+            modifyTASlots(null);
+            modifyOH(null);
+            modifySeatingChart(null);
+            modifyStartTime(null);
+            backgroundSelect.selectedIndex = Math.floor(Math.random() * 4);
+            modifyBackground(null);
+            startTime();
+            toggleSeatingChart(null);
+            toggleTimer(null);
+            toggleInstructions(null);
+
+
+            //Event Listeners
+
+            backgroundSelect.addEventListener('input', modifyBackground);
+            TASlots.addEventListener('input', modifyTASlots);
+            for (let i = 0; i < 4; i++) {
+                TA[i].addEventListener('input', modifyOH);  
+            }
+            courses.addEventListener('input', modifyStartTime);
+            courses.addEventListener('input', modifySeatingChart);
+            defaults.addEventListener('input', modifyStartTime);
+            timeStart.addEventListener('input', modifyEndTime);
+            duration.addEventListener('input', modifyEndTime);
+            buttonSeatingChart.addEventListener('click', toggleSeatingChart);
+            buttonTimer.addEventListener('click', toggleTimer);
+            buttonPassword.addEventListener('click', togglePassword);
+            buttonInstructions.addEventListener('click', toggleInstructions);
+
+        </script>
+
+    </body>
+</html>
+
+
+
+
