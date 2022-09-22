@@ -25,10 +25,7 @@ quizTimer/
 2. User Guide
 ==============
 
-Download and unzip the quizTimer directory onto your machine. A web browser (e.g. Chrome, Firefox, Vivaldi, etc.) supporting HTML,CSS,Javascript is required to use the Quiz Timer app. To open the Quiz Timer app, click the file "index.html" and open it in your browser of choice. Alternatively, you may enter the file path into your browser's url bar.
-
-Example 2.0.1
-If you saved the quizTimer directory to your "Downloads" folder,
+Download and unzip the quizTimer directory onto your machine. A web browser (e.g. Chrome, Firefox, Vivaldi, etc.) supporting HTML,CSS,Javascript is required to use the Quiz Timer app. To open the Quiz Timer app, click the file "index.html" and open it in your browser of choice. (To open in a browser other than your default browser, right click and select "open with"). Alternatively, you may enter the file path into your browser's url bar.
 
 -----------------------------
 2.1. Class and Quiz Selector
