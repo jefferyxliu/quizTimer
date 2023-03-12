@@ -236,11 +236,7 @@
     <body>
         <div class = "box">
             <select id = "courses"></select>
-            <select id = "defaults">
-                <option value = "Quiz">Review (25 min) + Quiz (25 min)</option>
-                <option value = "Test">Test (50 min)</option>
-                <option value = "None"></option>
-            </select>
+            <select id = "defaults"></select>
         </div>
         <div class = "box">
             <div class = "grid-container-gap" id = "gridTA">
@@ -334,13 +330,7 @@
                 </div>
                 <div class = "item-1-1">
                     <div id = "instructions">
-                        <textarea cols = "73" rows = "8">During testing, please ...
- &#10146; close all windows except for ALEKS and the Macintosh calculator. 
- &#10146; put away all notes, books, and papers.
- &#10146; silence and put phones, smart watches, etc. facedown at the front of your desk.
-
-When finished, put scratch paper in the box; then you may leave.
-Don't forget your belongings!</textarea>
+                        <textarea cols = "73" rows = "8" id = "instructionText"></textarea>
                     </div>
                 </div>
             </div>
@@ -378,6 +368,10 @@ Don't forget your belongings!</textarea>
                 const element = info.courses[i];
                 info.map[element.value] = {timeStart: element.timeStart, seatingChart: element.seatingChart};
             }
+            for (let i = 0; i < info.defaults.length; i++) {
+                const element = info.defaults[i];
+                info.map[element.value] = {after: element.after, duration: element.duration};
+            }
 
             //Class Selector and Quiz Type Selector
             const courses = document.getElementById("courses");
@@ -411,6 +405,7 @@ Don't forget your belongings!</textarea>
             //Instructions
             const instructions = document.getElementById("instructions");
             const buttonInstructions = document.getElementById("buttonInstructions");
+            const instructionText = document.getElementById("instructionText");
 
             //Background Image Selector
             const backgroundSelect = document.getElementById("backgroundSelect");
@@ -480,18 +475,9 @@ Don't forget your belongings!</textarea>
             }
             
             function modifyStartTime(event) {
-                if (defaults.value == 'Quiz') {
-                    timeStart.value = timeAfter(info.map[courses.value].timeStart, 25);
-                    duration.value = 25;
-                }
-                if (defaults.value == 'Test') {
-                    timeStart.value = info.map[courses.value].timeStart;
-                    duration.value = 50;
-                }
-                if (defaults.value == 'None') {
-                    timeStart.value = '00:00';
-                    duration.value = 0;
-                }
+                timeStart.value = timeAfter(info.map[courses.value].timeStart, info.map[defaults.value].after);
+                duration.value = info.map[defaults.value].duration;
+
                 modifyEndTime(null);
             }
 
@@ -549,6 +535,8 @@ Don't forget your belongings!</textarea>
             //On Load
             setSelectInfo('courses', info.courses);
             setSelectInfo('TA0', info.TA);
+            setSelectInfo('defaults', info.defaults);
+            instructionText.innerHTML = info.instructionText;
             for (let i = 1; i < 4; i++) {
                 TA[i].innerHTML = TA[0].innerHTML;   
             }
